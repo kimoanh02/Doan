@@ -1,0 +1,183 @@
+﻿@*@using eShopSolution.ViewModels.Common;
+    @model PagedResult<eShopSolution.ViewModels.Cart.Statistical>
+    @{
+        ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h1>Index</h1>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Ngày
+                </th>
+                <th>
+                    Doanh thu
+                </th>
+                <th>
+                    Lời lãi
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Revenues)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Benefit)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+
+
+
+@using eShopSolution.ViewModels.Common;
+@model PagedResult<eShopSolution.ViewModels.Cart.Statistical>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <!-- Left col -->
+        <section class="col-lg-7">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="nav-tabs-custom">
+                <!-- Tabs within a box -->
+                <ul class="nav nav-tabs pull-right">
+                    <li class="active"><i class="fa fa-map-marker"></i><h3 class="box-title">
+                                Biểu đồ thống kê
+                        </h3>
+                </ul>
+                <div id="chartContainer" style="height: 350px; width: 90%;">
+                </div>
+                <div class="tab-content no-padding">
+                    <!-- Morris chart - Sales -->
+                    <canvas id="bar" class="chart chart-line"
+                            chart-data="chartdata" chart-labels="labels" chart-series="series"></canvas>
+                </div>
+            </div><!-- /.nav-tabs-custom -->
+
+        </section><!-- /.Left col -->
+        <!-- right col (We are only adding the ID to make the widgets sortable)-->
+        <section class="col-lg-5">
+            <!-- Map box -->
+            <div class="box box-solid">
+                <div class="box-header">
+                    <!-- tools box -->
+                    <i class="fa fa-map-marker"></i>
+                    <h3 class="box-title">
+                        Dữ liệu thống kê
+                    </h3>
+                </div>
+                <div class="box-body">
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Ngày
+                                </th>
+                                <th>
+                                    Doanh thu
+                                </th>
+                                <th>
+                                    Lợi nhuận
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Date)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Revenues)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Benefit)
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body-->
+                <div class="box-footer no-border">
+                </div>
+            </div>
+        </section><!-- right col -->
+    </div><!-- /.row (main row) -->
+
+</section><!-- /.content -->
+
+<script type="text/javascript">
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            
+
+            data: [  //array of dataSeries
+                { //dataSeries - first quarter
+                    /*** Change type "column" to "bar", "area", "line" or "pie"***/
+                    type: "column",
+                    name: "Doanh thu",
+                    showInLegend: true,
+                    dataPoints: [
+                        { label: "10/10/2020", y: 89980000 },
+                        { label: "20/10/2020", y: 75960000 },
+                        { label: "25/10/2020", y: 74790000 },
+                        { label: "11/12/2020", y: 78000000 },
+                        { label: "11/11/2021", y: 56980000 }
+                    ]
+                },
+
+                { //dataSeries - second quarter
+
+                    type: "column",
+                    name: "Lợi nhuận",
+                    showInLegend: true,
+                    dataPoints: [
+                        { label: "10/10/2020", y: 10000000 },
+                        { label: "20/10/2020", y: 7960000 },
+                        { label: "25/11/2020", y: 12800000 },
+                        { label: "11/12/2020", y: 24020000 },
+                        { label: "11/11/2021", y: 8000000 }
+                    ]
+                }
+            ],
+            /** Set axisY properties here*/
+            axisY: {
+                prefix: "",
+                suffix: "VND"
+            }
+        });
+        
+
+        chart.render();
+    }
+</script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
